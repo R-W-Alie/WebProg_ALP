@@ -1,8 +1,7 @@
 <?php include_once('navigation.php'); ?>
 
     <?php include_once('hero_section.php'); ?>
-
-    <!-- Content Section -->
+    
     <section class="py-20 bg-white">
         <div class="max-w-screen-xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10">
             <div class="relative p-6 bg-[#FEFEFE] rounded-xl shadow-lg hover:-translate-y-1 transition-transform">

@@ -1,4 +1,3 @@
-<!-- Footer Section -->
     <footer class="bg-[#F5F1E8] border-t border-[#E0E0E0] pt-16 pb-5">
         <div class="max-w-screen-xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-10">
@@ -6,7 +5,7 @@
                     <h3 class="text-2xl font-bold mb-8">HUBUNGI KAMI</h3>
                     <div class="flex gap-8 items-start flex-col md:flex-row">
                         <div class="w-20 h-20 rounded-xl overflow-hidden">
-                            <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/sri.png" alt="Sri' Cookies footer logo" class="w-full h-full object-cover">
+                            <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/1.png" alt="Sri' Cookies footer logo" class="w-full h-full object-cover">
                         </div>
                         <div class="space-y-4">
                             <div class="flex gap-4 items-start">
@@ -37,5 +36,6 @@
             </div>
         </div>
     </footer>
-</body>
-</html>
+    </body>
+
+    </html>

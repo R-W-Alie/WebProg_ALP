@@ -27,18 +27,6 @@ create table
 --     )
 
 create table
-    orders (
-        order_id int(10) AUTO_INCREMENT not null primary key,
-        user_id int(10) not null,
-        foreign key (user_id) references users(user_id),
-        order_date datetime not null,
-        status_order ENUM('PAID', 'DELIVERD', 'OUT FOR DELIVERY') not null,
-        quantity int(10) not null,
-        total_price int(10) not null,
-        status ENUM('SELECTED','NOT SELECTED') NOT NULL 
-    );
-
-create table
     products (
         product_id int(10) AUTO_INCREMENT not null primary key,
         product_name varchar(50) not null,
@@ -57,3 +45,30 @@ create table
         address varchar(255) not null,
         password varchar(100) not null
     );
+
+
+create table
+    orders (
+        order_id int(10) AUTO_INCREMENT not null primary key,
+        user_id int(10) not null,
+        foreign key (user_id) references users(user_id),
+        order_date datetime not null,
+        status_check_id int(10) not null,
+        quantity int(10) not null,
+        total_price int(10) not null,
+        status_order_id  int(10) not null,
+        product_id int(10) not null,
+        foreign key (product_id) references products(product_id)
+    );
+
+-- create table
+--     status_check (
+--         status_check_id int(10) AUTO_INCREMENT not null primary key,
+--         status_name varchar(50) not null
+--     );
+
+-- create table
+--     status_order (
+--         status_order_id int(10) AUTO_INCREMENT not null primary key,
+--         status_name varchar(50) not null
+    -- )
