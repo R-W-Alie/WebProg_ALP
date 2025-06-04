@@ -6,15 +6,18 @@
     <div class="max-w-screen-xl mx-auto px-4">
         <h2 class="text-3xl font-bold text-center mb-10">Produk Unggulan</h2>
         <div id="slider" class="relative w-full max-w-2xl mx-auto overflow-hidden">
-            <div class="slides flex transition-transform duration-500 ease-in-out" style="width: calc(100% * 3);">
-                <div class="slide flex-shrink-0 w-1/3">
+            <div class="slides flex transition-transform duration-500 ease-in-out">
+                <div class="slide flex-shrink-0 w-100px h-auto">
                     <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/image/dark_choco.jpg" alt="Kukis Dark Choco" class="w-full h-auto block object-cover rounded-lg shadow-md">
+                    <p class="text-center">Dark Choco</p>
                 </div>
-                <div class="slide flex-shrink-0 w-1/3">
+                <div class="slide flex-shrink-0 w-100px h-auto">
                     <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/image/classic_duo.jpg" alt="Kukis Classic Duo" class="w-full h-auto block object-cover rounded-lg shadow-md">
+                    <p class="text-center">Classic Duo</p>
                 </div>
-                <div class="slide flex-shrink-0 w-1/3">
+                <div class="slide flex-shrink-0 w-100px h-auto">
                     <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/image/palm_sugar_choco.jpg" alt="Kukis Palm Sugar Choco" class="w-full h-auto block object-cover rounded-lg shadow-md">
+                    <p class="text-center">Palm Sugar Choco</p>
                 </div>
             </div>
 
@@ -27,54 +30,55 @@
                 </button>
             </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-        // jQuery(document).ready() code
-        $(document).ready(function () {
-            let currentIndex = 0;
-            const slides = $('.slide');
-            const totalSlides = slides.length;
-            const slideInterval = 3000; // 3 seconds
-            let autoSlide;
+            $(document).ready(function () {
+                let currentIndex = 0;
+                const slides = $('.slide');
+                const totalSlides = slides.length;
+                const slideInterval = 3000; // 3 seconds
+                let autoSlide;
 
-            function showSlide(index) {
-                const offset = -index * 100 + '%';
-                $('.slides').css('transform', 'translateX(' + offset + ')');
-            }
+                function showSlide(index) {
+                    const offset = -index * (100 / 3) + '%'; // Adjust based on the number of slides
+                    $('.slides').css('transform', 'translateX(' + offset + ')');
+                }
 
-            function nextSlide() {
-                currentIndex = (currentIndex + 1) % totalSlides;
+                function nextSlide() {
+                    currentIndex = (currentIndex + 1) % totalSlides;
+                    showSlide(currentIndex);
+                }
+
+                function startAutoSlide() {
+                    autoSlide = setInterval(nextSlide, slideInterval);
+                }
+
+                function stopAutoSlide() {
+                    clearInterval(autoSlide);
+                }
+
+                $('#prev').click(function () {
+                    stopAutoSlide();
+                    currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalSlides - 1;
+                    showSlide(currentIndex);
+                    startAutoSlide(); // Restart after manual change
+                });
+
+                $('#next').click(function () {
+                    stopAutoSlide();
+                    currentIndex = (currentIndex + 1) % totalSlides;
+                    showSlide(currentIndex);
+                    startAutoSlide(); // Restart after manual change
+                });
+
+                // Initialize
                 showSlide(currentIndex);
-            }
-
-            function startAutoSlide() {
-                autoSlide = setInterval(nextSlide, slideInterval);
-            }
-
-            function stopAutoSlide() {
-                clearInterval(autoSlide);
-            }
-
-            $('#prev').click(function () {
-                stopAutoSlide();
-                currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalSlides - 1;
-                showSlide(currentIndex);
-                startAutoSlide(); // Restart after manual change
+                startAutoSlide();
             });
-
-            $('#next').click(function () {
-                stopAutoSlide();
-                currentIndex = (currentIndex + 1) % totalSlides;
-                showSlide(currentIndex);
-                startAutoSlide(); // Restart after manual change
-            });
-
-            // Initialize
-            showSlide(currentIndex);
-            startAutoSlide();
-        });
         </script>
     </div>
 </section>
+
 
     <section class="py-20 bg-white">
         <div class="max-w-screen-xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10">
