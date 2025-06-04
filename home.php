@@ -5,7 +5,8 @@
     <section class="py-20 bg-[#F5F5F5]">
     <div class="max-w-screen-xl mx-auto px-4">
         <h2 class="text-3xl font-bold text-center mb-10">Produk Unggulan</h2>
-        <div id="slider" class="relative w-full max-w-2xl mx-auto overflow-hidden">
+        <div id="slider" class="mx-auto relative w-full max-w-2xl mx-auto overflow-hidden">
+            
             <div class="slides flex transition-transform duration-500 ease-in-out">
                 <div class="slide flex-shrink-0 w-100px h-auto">
                     <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/image/dark_choco.jpg" alt="Kukis Dark Choco" class="w-full h-auto block object-cover rounded-lg shadow-md">
