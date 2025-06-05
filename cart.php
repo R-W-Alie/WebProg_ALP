@@ -59,7 +59,7 @@ $result = $stmt->get_result();
 </html>
 
 
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -135,4 +135,4 @@ $result = $stmt->get_result();
     </div>
   </main>
 </body>
-</html> -->
+</html>

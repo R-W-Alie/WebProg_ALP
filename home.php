@@ -8,14 +8,18 @@
             
             <div class="slides flex transition-transform duration-500 ease-in-out">
                 <div class="slide flex-shrink-0 w-full h-auto ">
-                    <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/image/dark_choco.jpg" alt="Kukis Dark Choco" class="w-full h-auto block object-cover"> <p class="text-center font-semibold py-2 bg-white bg-opacity-75">Dark Choco</p> </div>
-                <div class="slide flex-shrink-0 w-full h-auto">
-                    <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/image/mix_cookies.jpg" alt="Kukis Classic Duo" class="w-full h-auto block object-cover">
-                    <p class="text-center font-semibold py-2 bg-white bg-opacity-75">Mix Cookies</p>
+                    <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/image/dark_choco.jpg" alt="Kukis Dark Choco" class="w-full max-h-60 object-contain mx-auto">
+                    <p class="text-center font-semibold text-sm py-1 px-2 bg-white bg-opacity-75 rounded max-w-[245px] mx-auto">Dark Choco</p>
+
                 </div>
                 <div class="slide flex-shrink-0 w-full h-auto">
-                    <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/image/palm_sugar_choco.jpg" alt="Kukis Palm Sugar Choco" class="w-full h-auto block object-cover">
-                    <p class="text-center font-semibold py-2 bg-white bg-opacity-75">Palm Sugar Choco</p>
+                    <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/image/mix_cookies.jpg" alt="Kukis Classic Duo" class="w-full max-h-60 object-contain mx-auto">
+                    <p class="text-center font-semibold text-sm py-1 px-2 bg-white bg-opacity-75 rounded max-w-[200px] mx-auto">Mix Cookies</p>
+
+                </div>
+                <div class="slide flex-shrink-0 w-full h-auto">
+                    <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/image/palm_sugar_choco.jpg" alt="Kukis Palm Sugar Choco" class="w-full max-h-60 object-contain mx-auto">
+                    <p class="text-center font-semibold text-sm py-1 px-2 bg-white bg-opacity-75 rounded max-w-[200px] mx-auto">Palm Sugar Choco</p>
                 </div>
                 </div>
 
@@ -35,7 +39,7 @@
                 const slidesContainer = $('.slides'); // Kontainer flex untuk slide
                 const slides = $('.slide');       // Setiap item slide individual
                 const totalSlides = slides.length;
-                const slideInterval = 5000; // 5 detik
+                const slideInterval = 5000; // 5detik
                 let autoSlideTimer;
 
                 function showSlide(index) {
