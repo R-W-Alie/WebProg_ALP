@@ -46,10 +46,16 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     </li>
                 </ul>
                 <?php if (!isset($_SESSION['username'])): ?>
+                    <!-- Show Login button if not logged in -->
                     <a href="login.php"
                         class="bg-[#F4D03F] hover:bg-[#F1C40F] text-[#4A4A4A] font-semibold px-6 py-2 rounded-full transition-transform hover:-translate-y-1 inline-block">
                         Login
                     </a>
+                <?php else: ?>
+                    <!-- Show greeting if logged in -->
+                    <div class="text-sm font-medium text-[#4A4A4A]">
+                        👋 Hi, <?php echo htmlspecialchars($_SESSION['username']); ?>!
+                    </div>
                 <?php endif; ?>
             </nav>
         </div>

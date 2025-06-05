@@ -10,7 +10,6 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $user_name = $_SESSION['user_name'] ?? '';
 
-// Get cart data (for simplicity, we assume `orders` are pending cart items)
 $sql = "SELECT o.quantity, o.total_price, p.product_name, p.image 
         FROM orders o 
         JOIN products p ON o.product_id = p.product_id 
