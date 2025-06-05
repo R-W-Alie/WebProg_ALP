@@ -1,57 +1,75 @@
+<?php
+session_start();
+require_once("db.php");
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $stmt = $conn->prepare("SELECT user_id, name_user, password FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($user_id, $name_user, $hashed_password);
+        $stmt->fetch();
+
+        if (password_verify($password, $hashed_password)) {
+            $_SESSION['user_id'] = $user_id;
+            $_SESSION['user_name'] = $name_user;
+            header("Location: cart.php");
+            exit;
+        } else {
+            $error = "Wrong password.";
+        }
+    } else {
+        $error = "User not found.";
+    }
+    $stmt->close();
+}
+?>
+
+
+<!-- HTML login -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - Sri'Cookies</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-cover bg-center font-[Poppins] text-[#4A4A4A] leading-relaxed" style="background-image: url('https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/bg.jpeg');">
-    <div class=" min-h-screen flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl p-12 w-full max-w-md relative z-10">
-            <div class="text-center mb-12">
-            <div class="mb-4">
-    <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/sri.png" alt="Sri' Cookies logo" class="mx-auto w-20 h-20 object-cover rounded-full">
-</div>
+
+<body class="bg-cover bg-center" style="background-image: url('bg.jpeg')">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl p-12 w-full max-w-md">
+            <div class="text-center mb-10">
+                <img src="sri.png" alt="Sri Logo" class="mx-auto w-20 h-20" />
                 <h1 class="text-3xl font-bold text-black">LOGIN</h1>
             </div>
-            
-            <!-- Login Form -->
-            <form class="space-y-8" action="login.php" method="POST">
-                <!-- Username Field -->
+            <?php if (!empty($error)): ?>
+                <p class="text-red-500 text-center mb-4"><?= $error ?></p>
+            <?php endif; ?>
+            <form method="POST" class="space-y-6">
                 <div>
-                    <label for="username" class="block text-lg font-bold text-black mb-3">Username</label>
-                    <input 
-                        type="text" 
-                        id="username" 
-                        name="username"
-                        class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl focus:outline-none focus:border-[#D2691E] transition-colors text-base"
-                        required
-                    >
+                    <label class="block font-bold text-black mb-2">Email</label>
+                    <input type="email" name="email" required class="w-full px-4 py-3 border rounded-2xl focus:outline-none" />
                 </div>
-                
-                <!-- Password Field -->
                 <div>
-                    <label for="password" class="block text-lg font-bold text-black mb-3">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password"
-                        class="w-full px-4 py-4 border-2 border-gray-300 rounded-2xl focus:outline-none focus:border-[#D2691E] transition-colors text-base"
-                        required
-                    >
+                    <label class="block font-bold text-black mb-2">Password</label>
+                    <input type="password" name="password" required class="w-full px-4 py-3 border rounded-2xl focus:outline-none" />
                 </div>
-                
-                <!-- Login Button -->
-                <div class="flex justify-end pt-6">
-                    <a href="beranda.php"
-                        type="submit"
-                        class="bg-[#F4D03F] hover:bg-[#F1C40F] text-black font-bold px-8 py-3 rounded-2xl transition-all hover:-translate-y-1 hover:shadow-lg">
-                        Login
-</a>
+                <div class="text-right">
+                    <button type="submit" class="bg-yellow-400 hover:bg-yellow-300 px-6 py-2 rounded-2xl font-bold">Login</button>
+                </div>
+                <div class="text-center text-sm mt-4">
+                    Belum punya akun? <a href="register.php" class="text-yellow-700 font-semibold">Daftar di sini</a>
                 </div>
             </form>
         </div>
     </div>
 </body>
+
 </html>
