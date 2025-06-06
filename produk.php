@@ -1,7 +1,15 @@
-<?php include_once('navigation.php'); ?>
-<?php include_once('hero_section.php'); ?>
-<?php include_once('db.php'); ?>
-</body>
+<?php
+session_start();
+include_once('navigation.php');
+include_once('hero_section.php');
+include_once('db.php');
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+?>
+
 <main class="max-w-screen-xl mx-auto px-4 py-12">
     <h2 class="text-3xl font-bold text-[#D2691E] mb-8 text-center">Semua Produk Cookies</h2>
 
@@ -21,7 +29,7 @@
                         <p class="text-[#D2691E] font-bold mb-3">Rp<?= number_format($row['price'], 0, ',', '.') ?></p>
                         <div class="flex justify-between items-center">
                             <span class="text-sm text-gray-500">Stok: <?= $row['stock'] ?></span>
-                            <a href="add_to_cart.php?id=<?= $row['product_id'] ?>"
+                            <a href="tambahKeranjang.php?id=<?= $row['product_id'] ?>"
                                 class="bg-[#F4D03F] hover:bg-[#F1C40F] text-[#4A4A4A] font-semibold px-4 py-2 rounded-full transition-transform hover:-translate-y-1 text-sm">
                                 Tambah ke Keranjang
                             </a>
@@ -36,7 +44,5 @@
         ?>
     </div>
 </main>
-<?php include_once('footer.php'); ?>
-</body>
 
-</html>
+<?php include_once('footer.php'); ?>
