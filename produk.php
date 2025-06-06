@@ -3,21 +3,17 @@ session_start();
 include_once('navigation.php');
 include_once('hero_section.php');
 include_once('db.php');
-
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
 ?>
-
 <main class="max-w-screen-xl mx-auto px-4 py-12">
     <h2 class="text-3xl font-bold text-[#D2691E] mb-8 text-center">Semua Produk Cookies</h2>
-
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         <?php
         $query = "SELECT * FROM products";
         $result = mysqli_query($conn, $query);
-
         if ($result && mysqli_num_rows($result) > 0):
             while ($row = mysqli_fetch_assoc($result)):
         ?>
@@ -44,5 +40,4 @@ if (!isset($_SESSION['user_id'])) {
         ?>
     </div>
 </main>
-
 <?php include_once('footer.php'); ?>

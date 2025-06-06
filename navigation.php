@@ -6,14 +6,12 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sri'Cookies</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body class="font-[Poppins] bg-[#F5F1E8] text-[#4A4A4A] leading-relaxed">
     <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="max-w-screen-xl mx-auto flex justify-between items-center p-4">

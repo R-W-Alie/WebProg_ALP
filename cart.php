@@ -1,16 +1,12 @@
 <?php
 session_start();
 require_once("db.php");
-
 if (!isset($_SESSION['user_id'])) {
   header("Location: login.php");
   exit;
 }
-
 $user_id = $_SESSION['user_id'];
 $user_name = $_SESSION['user_name'] ?? '';
-
-// Fetch cart items
 $sql = "SELECT o.order_id, o.quantity, o.total_price, p.product_name, p.image 
         FROM orders o 
         JOIN products p ON o.product_id = p.product_id 
@@ -25,7 +21,6 @@ $result = $stmt->get_result();
 
 <div class="max-w-3xl mx-auto py-10">
   <h1 class="text-2xl font-bold mb-6">Keranjang Kamu</h1>
-
   <?php if ($result->num_rows > 0): ?>
     <div class="space-y-4 mb-6">
       <?php
@@ -54,7 +49,6 @@ $result = $stmt->get_result();
         </div>
       <?php endwhile; ?>
     </div>
-
     <div class="flex justify-between items-center mt-6 border-t pt-4">
       <p class="text-xl font-semibold">Total Bayar: Rp<?= number_format($totalBayar, 0, ',', '.') ?></p>
       <a href="checkout.php"
@@ -67,5 +61,4 @@ $result = $stmt->get_result();
   <?php endif; ?>
 </div>
 </body>
-
 </html>

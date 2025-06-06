@@ -1,11 +1,9 @@
 <?php
 session_start();
 include_once('db.php');
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
-
     if ($email === 'sriadmin@gmail.com' && $password === 'adminnya') {
         $_SESSION['user_id'] = 'admin';
         $_SESSION['user_name'] = 'Sri Admin';
@@ -13,12 +11,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: admin.php");
         exit();
     }
-
     $stmt = $conn->prepare("SELECT user_id, name_user, password FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
-
     if ($result && $row = $result->fetch_assoc()) {
         if (password_verify($password, $row['password'])) {
             $_SESSION['user_id'] = $row['user_id'];
@@ -34,17 +30,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - Sri'Cookies</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body class="bg-cover bg-center" style="background-image: url('bg.jpeg')">
     <div class="min-h-screen flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl shadow-2xl p-12 w-full max-w-md">
@@ -74,5 +67,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </body>
-
 </html>

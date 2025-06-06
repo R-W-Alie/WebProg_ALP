@@ -1,33 +1,26 @@
 <?php
 session_start();
 require_once("db.php");
-
 if (!isset($_SESSION['user_id']) || !isset($_GET['id'])) {
     header("Location: produk.php");
     exit;
 }
-
 $user_id = $_SESSION['user_id'];
 $product_id = intval($_GET['id']);
-
 $stmt = $conn->prepare("SELECT * FROM products WHERE product_id = ?");
 $stmt->bind_param("i", $product_id);
 $stmt->execute();
 $product = $stmt->get_result()->fetch_assoc();
-
 if (!$product) {
     header("Location: produk.php");
     exit;
 }
-
 $quantity = 1;
 $total_price = $product['price'] * $quantity;
-
 $check_stmt = $conn->prepare("SELECT order_id, quantity FROM orders WHERE user_id = ? AND product_id = ? AND status_check_id = 0");
 $check_stmt->bind_param("ii", $user_id, $product_id);
 $check_stmt->execute();
 $existing = $check_stmt->get_result()->fetch_assoc();
-
 if ($existing) {
     $new_qty = $existing['quantity'] + 1;
     $new_total = $product['price'] * $new_qty;
@@ -40,7 +33,6 @@ if ($existing) {
     $insert_stmt->bind_param("iiid", $user_id, $product_id, $quantity, $total_price);
     $insert_stmt->execute();
 }
-
 header("Location: cart.php");
 exit;
 ?>
