@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $currentPage = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
@@ -25,32 +27,32 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         👋 Hi, <?= htmlspecialchars($_SESSION['user_name']); ?>!
                     </div>
                 <?php else: ?>
-                    <div></div> <!-- Empty div to keep spacing consistent -->
+                    <div></div>
                 <?php endif; ?>
 
                 <!-- Right side: nav links and login/logout button -->
                 <ul class="flex gap-6 list-none items-center">
                     <li>
                         <a href="home.php"
-                            class="font-medium text-base hover:text-[#D2691E] <?php echo $currentPage == 'home.php' ? 'text-[#D2691E]' : 'text-[#4A4A4A]'; ?>">
+                            class="font-medium text-base hover:text-[#D2691E] <?= $currentPage == 'home.php' ? 'text-[#D2691E]' : 'text-[#4A4A4A]' ?>">
                             Beranda
                         </a>
                     </li>
                     <li>
                         <a href="produk.php"
-                            class="font-medium text-base hover:text-[#D2691E] <?php echo $currentPage == 'produk.php' ? 'text-[#D2691E]' : 'text-[#4A4A4A]'; ?>">
+                            class="font-medium text-base hover:text-[#D2691E] <?= $currentPage == 'produk.php' ? 'text-[#D2691E]' : 'text-[#4A4A4A]' ?>">
                             Produk
                         </a>
                     </li>
                     <li>
                         <a href="cart.php"
-                            class="font-medium text-base hover:text-[#D2691E] <?php echo $currentPage == 'cart.php' ? 'text-[#D2691E]' : 'text-[#4A4A4A]'; ?>">
+                            class="font-medium text-base hover:text-[#D2691E] <?= $currentPage == 'cart.php' ? 'text-[#D2691E]' : 'text-[#4A4A4A]' ?>">
                             Keranjang
                         </a>
                     </li>
                     <li>
                         <a href="riwayat.php"
-                            class="font-medium text-base hover:text-[#D2691E] <?php echo $currentPage == 'riwayat.php' ? 'text-[#D2691E]' : 'text-[#4A4A4A]'; ?>">
+                            class="font-medium text-base hover:text-[#D2691E] <?= $currentPage == 'riwayat.php' ? 'text-[#D2691E]' : 'text-[#4A4A4A]' ?>">
                             Riwayat Pesanan
                         </a>
                     </li>
