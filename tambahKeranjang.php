@@ -29,10 +29,9 @@ if ($existing) {
     $update_stmt->bind_param("idi", $new_qty, $new_total, $existing['order_id']);
     $update_stmt->execute();
 } else {
-    $insert_stmt = $conn->prepare("INSERT INTO orders (user_id, product_id, quantity, total_price, status_check_id) VALUES (?, ?, ?, ?, 0)");
-    $insert_stmt->bind_param("iiid", $user_id, $product_id, $quantity, $total_price);
+    $insert_stmt = $conn->prepare("INSERT INTO orders (user_id, product_id, quantity, total_price, status_check_id, status_order_id, order_date) VALUES (?, ?, ?, ?, 0, ?, NOW())");
+    $insert_stmt->bind_param("iiidi", $user_id, $product_id, $quantity, $total_price, $status_order_id);
     $insert_stmt->execute();
 }
 header("Location: cart.php");
 exit;
-?>

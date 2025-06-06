@@ -16,9 +16,7 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
-
 <?php include_once('navigation.php'); ?>
-
 <div class="max-w-3xl mx-auto py-10">
   <h1 class="text-2xl font-bold mb-6">Keranjang Kamu</h1>
   <?php if ($result->num_rows > 0): ?>
