@@ -2,7 +2,7 @@
 <?php include_once('hero_section.php'); ?>
 <?php include_once('db.php'); ?>
 
-<?php include_once('footer.php'); ?>
+
 </body>
 <main class="max-w-screen-xl mx-auto px-4 py-12">
     <h2 class="text-3xl font-bold text-[#D2691E] mb-8 text-center">Semua Produk Cookies</h2>
@@ -38,6 +38,7 @@
         ?>
     </div>
 </main>
+<?php include_once('footer.php'); ?>
 
 </html>
 
