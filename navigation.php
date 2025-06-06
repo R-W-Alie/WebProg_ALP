@@ -21,7 +21,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/1.png" alt="Sri' Cookies logo" class="w-full h-full object-cover">
             </div>
             <nav class="flex items-center gap-8 flex-wrap justify-between w-full max-w-4xl">
-                <!-- Left side: greeting if logged in -->
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <div class="text-[#D2691E] font-semibold text-lg select-none">
                         👋 Hi, <?= htmlspecialchars($_SESSION['user_name']); ?>!
@@ -29,8 +28,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 <?php else: ?>
                     <div></div>
                 <?php endif; ?>
-
-                <!-- Right side: nav links and login/logout button -->
                 <ul class="flex gap-6 list-none items-center">
                     <li>
                         <a href="home.php"

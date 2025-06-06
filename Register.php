@@ -20,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 
-<!-- HTML register -->
 <!DOCTYPE html>
 <html lang="en">
 
