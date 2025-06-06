@@ -32,15 +32,3 @@ create table
         product_id int(10) not null,
         foreign key (product_id) references products(product_id)
     );
-
--- create table
---     status_check (
---         status_check_id int(10) AUTO_INCREMENT not null primary key,
---         status_name varchar(50) not null
---     );
-
--- create table
---     status_order (
---         status_order_id int(10) AUTO_INCREMENT not null primary key,
---         status_name varchar(50) not null
-    -- )
