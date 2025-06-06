@@ -56,4 +56,8 @@ document.addEventListener('DOMContentLoaded', function() {
     //     // tapi pastikan tidak menduplikasi konten lagi jika sudah
     //     startTickerAnimation(); 
     // });
+    document.getElementById('scrollToProducts').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth' });
+});
 });

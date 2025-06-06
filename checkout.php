@@ -1,86 +1,21 @@
 <?php
 session_start();
+require_once("db.php");
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
+$user_id = $_SESSION['user_id'];
+$checkout = $conn->prepare("UPDATE orders SET status_check_id = 1 WHERE user_id = ? AND status_check_id = 0");
+$checkout->bind_param("i", $user_id);
+$checkout->execute();
+$checkout->close();
 ?>
-
-<!DOCTYPE html>
-<html lang="id">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Checkout</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body class="bg-white font-sans">
-    <header class="flex items-center justify-between px-6 py-4 border-b">
-        <div class="flex items-center space-x-2">
-            <img src="logo.png" alt="Logo" class="h-8 w-8" />
-        </div>
-        <nav class="space-x-6 font-semibold text-sm">
-            <a href="#" class="hover:underline">Beranda</a>
-            <a href="#" class="hover:underline">Produk</a>
-            <a href="#" class="underline">Keranjang</a>
-            <a href="#" class="hover:underline">Riwayat Pesanan</a>
-        </nav>
-    </header>
-
-    <main class="px-6 py-10 max-w-3xl mx-auto">
-        <h1 class="text-2xl font-bold text-center text-[#3A2D18] mb-8">Alamat Pengiriman</h1>
-        <form class="space-y-6">
-            <input type="text" placeholder="Nama Penerima" class="w-full border rounded-xl px-4 py-2" />
-            <input type="text" placeholder="No Telp." class="w-full border rounded-xl px-4 py-2" />
-            <textarea placeholder="Alamat Lengkap" rows="4" class="w-full border rounded-xl px-4 py-2"></textarea>
-            <select class="w-full border rounded-xl px-4 py-2">
-                <option>Metode Pembayaran</option>
-                <option>Transfer Bank</option>
-                <option>COD</option>
-            </select>
-        </form>
-        <h2 class="text-xl font-bold mt-10 mb-4 text-[#3A2D18]">Detail Pesanan</h2>
-        <div class="space-y-6">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <img src="dark-choco.png" alt="Dark Choco" class="h-20 w-20 rounded-xl border" />
-                    <div>
-                        <p class="font-medium">Dark Choco</p>
-                        <p>Rp 55.000,-</p>
-                    </div>
-                </div>
-                <div class="border rounded-full px-3 py-1">x1</div>
-            </div>
-
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <img src="mix-cookies.png" alt="Mix Cookies" class="h-20 w-20 rounded-xl border" />
-                    <div>
-                        <p class="font-medium">Mix Cookies</p>
-                        <p>Rp 60.000,-</p>
-                    </div>
-                </div>
-                <div class="border rounded-full px-3 py-1">x1</div>
-            </div>
-
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <img src="palm-sugar.png" alt="Palm Sugar Choco" class="h-20 w-20 rounded-xl border" />
-                    <div>
-                        <p class="font-medium">Palm Sugar Choco</p>
-                        <p>Rp 55.000,-</p>
-                    </div>
-                </div>
-                <div class="border rounded-full px-3 py-1">x1</div>
-            </div>
-        </div>
-        <div class="mt-12 bg-[#F9F4EF] p-4 rounded-lg flex items-center justify-between">
-            <p class="text-lg font-semibold">Total <span class="font-bold">Rp 170.000,-</span></p>
-            <button class="bg-yellow-300 text-black px-6 py-2 rounded-xl font-semibold">Checkout</button>
-        </div>
-    </main>
+<?php include_once('navigation.php'); ?>
+<div class="max-w-xl mx-auto py-12 text-center">
+    <h1 class="text-3xl font-bold text-green-600 mb-4">Checkout Berhasil!</h1>
+    <p class="text-gray-700 mb-6">Terima kasih sudah berbelanja di <strong>Sri'Cookies</strong>. Pesananmu sedang diproses.</p>
+    <a href="produk.php" class="inline-block bg-[#D2691E] text-white px-5 py-2 rounded-full hover:bg-[#B65C1A] transition">Belanja Lagi</a>
+</div>
 </body>
-
 </html>

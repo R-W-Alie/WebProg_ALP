@@ -15,7 +15,7 @@ create table
         email varchar(100) not null,
         no_hp varchar(20) not null,
         address varchar(255) not null,
-        password varchar(100) not null
+        password VARCHAR(100) NOT NULL
     );
 
 
