@@ -9,7 +9,7 @@
             <div class="slides flex transition-transform duration-500 ease-in-out">
                 <div class="slide flex-shrink-0 w-full h-auto ">
                     <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/image/dark_choco.jpg" alt="Kukis Dark Choco" class="w-full max-h-60 object-contain mx-auto">
-                    <p class="text-center font-semibold text-sm py-1 px-2 bg-white bg-opacity-75 rounded max-w-[245px] mx-auto">Dark Choco</p>
+                    <p class="text-center font-semibold text-sm py-1 px-2 bg-white bg-opacity-75 rounded max-w-[230px] mx-auto">Dark Choco</p>
 
                 </div>
                 <div class="slide flex-shrink-0 w-full h-auto">
