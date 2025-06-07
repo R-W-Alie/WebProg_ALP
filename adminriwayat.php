@@ -1,3 +1,8 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL); ?>
+
 <?php include_once('navadmin.php'); ?>
 <?php include_once('db.php'); ?>
 
@@ -9,6 +14,7 @@
             <thead>
                 <tr class="bg-[#F4D03F] text-[#4A4A4A]">
                     <th class="px-6 py-3 text-left">No</th>
+                    <th class="px-6 py-3 text-left">Nama Pembeli</th>
                     <th class="px-6 py-3 text-left">Nama Produk</th>
                     <th class="px-6 py-3 text-left">Jumlah</th>
                     <th class="px-6 py-3 text-left">Total Harga</th>
@@ -17,11 +23,12 @@
             </thead>
             <tbody>
                 <?php
-                $query = "SELECT o.quantity, o.total_price, p.product_name, o.transaction_date 
+                $query = "SELECT o.quantity, o.total_price, p.product_name, o.order_date, o.user_id, u.name_user AS name_user
                             FROM orders o 
                             JOIN products p ON o.product_id = p.product_id 
+                            JOIN users u ON o.user_id = u.user_id
                             WHERE o.status_check_id = 1 
-                            ORDER BY o.transaction_date DESC";
+                            ORDER BY o.order_date DESC";
                 $result = mysqli_query($conn, $query);
                 $no = 1;
 
@@ -30,10 +37,11 @@
                 ?>
                         <tr class="<?= $no % 2 == 0 ? 'bg-gray-100' : 'bg-white' ?>">
                             <td class="px-6 py-4"><?= $no++ ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($row['name_user']) ?></td>
                             <td class="px-6 py-4"><?= htmlspecialchars($row['product_name']) ?></td>
                             <td class="px-6 py-4"><?= $row['quantity'] ?></td>
                             <td class="px-6 py-4">Rp<?= number_format($row['total_price'], 0, ',', '.') ?></td>
-                            <td class="px-6 py-4"><?= date('d-m-Y H:i:s', strtotime($row['transaction_date'])) ?></td>
+                            <td class="px-6 py-4"><?= date('d-m-Y H:i:s', strtotime($row['order_date'])) ?></td>
                         </tr>
                 <?php
                     endwhile;
