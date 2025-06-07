@@ -80,7 +80,7 @@ $display_date = date('l, j F Y H:i') . ' WIB';
             <div class="mt-8 border-t pt-6">
                 <h2 class="text-lg font-medium text-gray-900">Order Summary</h2>
                 <div class="mt-4 space-y-4">
-                    <?php foreach ($cart_items as $item): ?>
+                    <?php foreach ($items_to_checkout as $item): ?>
                     <div class="flex justify-between">
                         <div>
                             <p class="text-gray-600"><?= htmlspecialchars($item['product_name']) ?> × <?= $item['quantity'] ?></p>
