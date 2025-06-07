@@ -25,7 +25,7 @@ $query_laris = "
 $result_laris = mysqli_query($conn, $query_laris);
 ?>
 
-<section class="py-20 bg-[#F5F5F5]">
+<section class="py-20 bg-[[#F5F1E8]">
     <div class="max-w-screen-xl mx-auto px-4">
         <h2 class="text-3xl font-bold text-center mb-10">Produk Unggulan</h2>
         <div id="slider" class="mx-auto relative w-full max-w-xl md:max-w-2xl overflow-hidden rounded-lg">
@@ -118,7 +118,7 @@ $result_laris = mysqli_query($conn, $query_laris);
     </div>
 </section>
 
-<section class="py-20 bg-white">
+<section class="py-20 bg-[#F5F1E8]">
     <div class="max-w-screen-xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10">
         <div class="relative p-6 bg-[#FEFEFE] rounded-xl shadow-lg hover:-translate-y-1 transition-transform">
             <h3 class="text-xl font-bold mb-4">Pesanan</h3>

@@ -51,10 +51,10 @@ $update->close();
     <title>Checkout Success - Sri'Cookies</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50">
+
     <?php include_once('navigation.php'); ?>
 
-    <div class="max-w-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class=" max-w-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <!-- Success Card -->
         <div class="bg-white shadow-md rounded-lg p-8 mb-8 border-l-4 border-green-500">
             <div class="text-center">
@@ -89,7 +89,7 @@ $update->close();
 
             <!-- Action Buttons -->
             <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-                <a href="produk.php" class="px-6 py-3 bg-[#D2691E] text-white rounded-md hover:bg-[#B65C1A] transition text-center">
+                <a href="produk.php" class="px-6 py-3 bg-[#F1C40F] text-white rounded-md hover:bg-[#F4D03F] transition text-center">
                     Continue Shopping
                 </a>
                 <a href="riwayat.php" class="px-6 py-3 border border-gray-300 rounded-md hover:bg-gray-50 transition text-center">
