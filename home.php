@@ -1,27 +1,55 @@
 <?php include_once('navigation.php'); ?>
 <?php include_once('hero_section.php'); ?>
 
+<?php
+
+include_once('db.php');
+
+// Kueri untuk mengambil 3 produk terlaris
+$query_laris = "
+    SELECT
+        p.product_id,
+        p.product_name,
+        p.image
+    FROM
+        orders oi
+    JOIN
+        products p ON oi.product_id = p.product_id
+    GROUP BY
+        p.product_id, p.product_name, p.image
+    ORDER BY
+        SUM(oi.quantity) DESC
+    LIMIT 3
+";
+
+$result_laris = mysqli_query($conn, $query_laris);
+?>
+
 <section class="py-20 bg-[#F5F5F5]">
     <div class="max-w-screen-xl mx-auto px-4">
         <h2 class="text-3xl font-bold text-center mb-10">Produk Unggulan</h2>
         <div id="slider" class="mx-auto relative w-full max-w-xl md:max-w-2xl overflow-hidden rounded-lg">
             
             <div class="slides flex transition-transform duration-500 ease-in-out">
-                <div class="slide flex-shrink-0 w-full h-auto ">
-                    <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/image/dark_choco.jpg" alt="Kukis Dark Choco" class="w-full max-h-60 object-contain mx-auto">
-                    <p class="text-center font-semibold text-sm py-1 px-2 bg-white bg-opacity-75 rounded max-w-[230px] mx-auto">Dark Choco</p>
-
-                </div>
-                <div class="slide flex-shrink-0 w-full h-auto">
-                    <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/image/mix_cookies.jpg" alt="Kukis Classic Duo" class="w-full max-h-60 object-contain mx-auto">
-                    <p class="text-center font-semibold text-sm py-1 px-2 bg-white bg-opacity-75 rounded max-w-[200px] mx-auto">Mix Cookies</p>
-
-                </div>
-                <div class="slide flex-shrink-0 w-full h-auto">
-                    <img src="https://raw.githubusercontent.com/R-W-Alie/WebProg_ALP/refs/heads/main/image/palm_sugar_choco.jpg" alt="Kukis Palm Sugar Choco" class="w-full max-h-60 object-contain mx-auto">
-                    <p class="text-center font-semibold text-sm py-1 px-2 bg-white bg-opacity-75 rounded max-w-[200px] mx-auto">Palm Sugar Choco</p>
-                </div>
-                </div>
+                <?php
+                if ($result_laris && mysqli_num_rows($result_laris) > 0):
+                    while ($produk = mysqli_fetch_assoc($result_laris)):
+                ?>
+                        <div class="slide flex-shrink-0 w-full h-auto ">
+                            <img src="<?= htmlspecialchars($produk['image']) ?>" alt="Kukis <?= htmlspecialchars($produk['product_name']) ?>" class="w-full max-h-60 object-contain mx-auto">
+                            <p class="text-center font-semibold text-sm py-1 rounded max-w-[230px] mx-auto">
+                                <?= htmlspecialchars($produk['product_name']) ?>
+                            </p>
+                        </div>
+                <?php
+                    endwhile;
+                else:
+                ?>
+                    <div class="slide flex-shrink-0 w-full h-auto text-center">
+                        <p>Belum ada produk unggulan yang tersedia.</p>
+                    </div>
+                <?php endif; ?>
+            </div>
 
             <div class="controls absolute top-1/2 left-0 right-0 flex justify-between transform -translate-y-1/2 px-2 z-10">
                 <button id="prev" class="bg-black bg-opacity-50 hover:bg-opacity-70 text-white border-none p-2 rounded-full flex items-center justify-center cursor-pointer">
@@ -32,18 +60,18 @@
                 </button>
             </div>
         </div>
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             $(document).ready(function () {
                 let currentIndex = 0;
-                const slidesContainer = $('.slides'); // Kontainer flex untuk slide
-                const slides = $('.slide');       // Setiap item slide individual
+                const slidesContainer = $('.slides');
+                const slides = $('.slide');
                 const totalSlides = slides.length;
-                const slideInterval = 5000; // 5detik
+                const slideInterval = 5000;
                 let autoSlideTimer;
 
                 function showSlide(index) {
-                    // Setiap slide menggeser kontainer sebesar 100% dari lebarnya
                     const offset = -index * 100 + '%'; 
                     slidesContainer.css('transform', 'translateX(' + offset + ')');
                 }
@@ -59,7 +87,7 @@
                 }
 
                 function startAutoSlide() {
-                    stopAutoSlide(); // Hentikan dulu jika sudah ada
+                    stopAutoSlide();
                     autoSlideTimer = setInterval(nextSlide, slideInterval);
                 }
 
@@ -69,22 +97,20 @@
 
                 $('#prev').click(function () {
                     stopAutoSlide();
-                    prevSlide(); // Panggil fungsi prevSlide yang sudah diperbaiki
-                    startAutoSlide(); // Restart setelah perubahan manual
+                    prevSlide();
+                    startAutoSlide();
                 });
 
                 $('#next').click(function () {
                     stopAutoSlide();
                     nextSlide();
-                    startAutoSlide(); // Restart setelah perubahan manual
+                    startAutoSlide();
                 });
 
-                // Inisialisasi
-                if (totalSlides > 0) { // Hanya jalankan jika ada slide
+                if (totalSlides > 0) {
                     showSlide(currentIndex);
                     startAutoSlide();
                 } else {
-                    // Sembunyikan tombol navigasi jika tidak ada slide
                     $('.controls').hide();
                 }
             });

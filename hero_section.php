@@ -3,14 +3,6 @@
     <div class="max-w-screen-xl mx-auto px-2 z-10 md:pl-48 lg:pl-64"> <h1 class="text-6xl md:text-5xl sm:text-4xl font-extrabold text-white leading-none drop-shadow-[3px_3px_0_#8B4513] mb-4">SRI'<br>COOKIES</h1>
         <p class="text-lg md:text-base font-semibold text-[#8B4513] ml-2 mb-2">"COOKIES DARI HATI DENGAN RASA ALAMI"</p>
         <p class="text-2xl md:text-xl sm:text-lg font-bold text-white mb-6 drop-shadow-[2px_2px_0_#8B4513]">Nikmati kelezatan kukis premium buatan rumahan, siap diantar ke seluruh Indonesia!</p>
-        <div class="relative w-full overflow-hidden mb-8">
-            <div id="news-ticker" class="whitespace-nowrap absolute left-0 top-0 py-2 px-0 bg-black bg-opacity-50 rounded-full">
-                <span class="text-white text-lg font-semibold mx-4">⭐ GRATIS ONGKIR min. Rp 100rb khusus area Surabaya! ⭐</span>
-                <span class="text-white text-lg font-semibold mx-4">✨ Coba varian BARU: Kukis Cokelat! ✨</span>
-                <span class="text-white text-lg font-semibold mx-4">🚚 Pengiriman kilat setiap hari Senin-Sabtu! 🚚</span>
-                <span class="text-white text-lg font-semibold mx-4">🎁 Dapatkan promo menarik! 🎁</span>
-            </div>
-        </div>
         <div class="flex flex-col sm:flex-row gap-4 mb-6">
             <a href="produk.php" class="inline-block bg-[#8B4513] hover:bg-[#A0522D] text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 ease-in-out shadow-lg transform hover:scale-105">
                 Pesan Sekarang Juga!
@@ -25,4 +17,3 @@
         </div>
     </div>
 </section>
-<script src="hero.js"></script> 

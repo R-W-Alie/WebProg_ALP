@@ -24,10 +24,10 @@
                 </div>
                 <div>
                     <nav class="flex flex-col md:items-end gap-4">
-                        <a href="#" class="hover:text-[#D2691E] font-medium">Beranda</a>
-                        <a href="#" class="hover:text-[#D2691E] font-medium">Produk</a>
-                        <a href="#" class="hover:text-[#D2691E] font-medium">Keranjang</a>
-                        <a href="#" class="hover:text-[#D2691E] font-medium">Riwayat Pesanan</a>
+                        <a href="home.php" class="hover:text-[#D2691E] font-medium">Beranda</a>
+                        <a href="produk.php" class="hover:text-[#D2691E] font-medium">Produk</a>
+                        <a href="cart.php" class="hover:text-[#D2691E] font-medium">Keranjang</a>
+                        <a href="riwayat.php" class="hover:text-[#D2691E] font-medium">Riwayat Pesanan</a>
                     </nav>
                 </div>
             </div>

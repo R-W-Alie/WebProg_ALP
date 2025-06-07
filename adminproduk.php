@@ -17,27 +17,36 @@
         if ($result && mysqli_num_rows($result) > 0):
             while ($row = mysqli_fetch_assoc($result)):
         ?>
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                <img src="<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['product_name']) ?>" class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="text-lg font-semibold text-[#4A4A4A] mb-1"><?= htmlspecialchars($row['product_name']) ?></h3>
-                        <p class="text-sm text-gray-600 mb-2 h-20 overflow-auto"><?= nl2br(htmlspecialchars($row['description'])) ?></p>
-                        <p class="text-[#D2691E] font-bold mb-3">Rp<?= number_format($row['price'], 0, ',', '.') ?></p>
-                        <div class="flex justify-between items-center border-t pt-3">
-                            <span class="text-sm text-gray-500">Stok: <?= $row['stock'] ?></span>
-                            <div>
-                                <a href="edit_produk.php?id=<?= $row['product_id'] ?>"
-                                    class="bg-[#F4D03F] hover:bg-[#F1C40F] text-[#4A4A4A] font-semibold px-4 py-2 rounded-full text-sm">
-                                    Edit
-                                </a>
-                                <a href="hapus_produk.php?id=<?= $row['product_id'] ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?');"
-                                    class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-full text-sm">
-                                    Hapus
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 flex flex-col">
+        
+        <div class="w-full h-56 flex items-center justify-center p-4 bg-gray-50"> 
+            <img src="<?= htmlspecialchars($row['image']) ?>" 
+                alt="<?= htmlspecialchars($row['product_name']) ?>" 
+                class="max-w-full max-h-full object-contain">
                 </div>
+
+    <div class="p-4 flex-grow flex flex-col">
+        <div>
+            <h3 class="text-lg font-semibold text-[#4A4A4A] mb-1"><?= htmlspecialchars($row['product_name']) ?></h3>
+            <p class="text-sm text-gray-600 mb-2 h-20 overflow-auto"><?= nl2br(htmlspecialchars($row['description'])) ?></p>
+            <p class="text-[#D2691E] font-bold mb-3">Rp<?= number_format($row['price'], 0, ',', '.') ?></p>
+        </div>
+        
+        <div class="flex justify-between items-center border-t pt-3 mt-auto">
+            <span class="text-sm text-gray-500">Stok: <?= $row['stock'] ?></span>
+            <div>
+                <a href="edit_produk.php?id=<?= $row['product_id'] ?>"
+                    class="bg-[#F4D03F] hover:bg-[#F1C40F] text-[#4A4A4A] font-semibold px-4 py-2 rounded-full text-sm">
+                    Edit
+                </a>
+                <a href="hapus_produk.php?id=<?= $row['product_id'] ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?');"
+                    class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-full text-sm">
+                    Hapus
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
         <?php
             endwhile;
         else:
@@ -46,4 +55,3 @@
         ?>
     </div>
 </main>
-<?php include_once('footer.php'); ?>
