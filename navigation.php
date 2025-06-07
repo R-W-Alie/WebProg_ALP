@@ -21,7 +21,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <nav class="flex items-center gap-8 flex-wrap justify-between w-full max-w-4xl">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <div class="text-[#D2691E] font-semibold text-lg select-none">
-                        👋 Hi, <?= htmlspecialchars($_SESSION['user_name']); ?>!
+                        <a href="profile.php"
+                        class="font-medium text-base hover:text-[#D2691E] <?= $currentPage == 'profile.php' ? 'text-[#D2691E]' : 'text-[#4A4A4A]' ?>">
+                        👋 Hi, <?= htmlspecialchars($_SESSION['user_name']); ?>! </a>
                     </div>
                 <?php else: ?>
                     <div></div>
