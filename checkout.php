@@ -72,7 +72,7 @@ $display_date = date('l, j F Y H:i') . ' WIB';
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
                 <h1 class="text-3xl font-bold text-gray-900 mt-4">Checkout Successful!</h1>
-                <p class="mt-2 text-gray-600">Thank you for your order #<?= substr(md5($order_date), 0, 8) ?></p>
+                <p class="mt-2 text-gray-600">Thank you for your order</p>
                 <p class="text-gray-500 text-sm mt-1"><?= $display_date ?></p>
             </div>
 
