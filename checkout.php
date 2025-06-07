@@ -28,7 +28,7 @@ if (empty($cart_items)) {
 }
 
 // Tandai semua item ini sudah checkout (status_check_id = 1) dan update tanggal order
-$order_date = date("Y-m-d H:i:s");
+$order_date = date("Y-m-d H:i:s"); // ✅ ini jadi ID unik utk 1 transaksi
 $update = $conn->prepare("UPDATE orders SET status_check_id = 1, order_date = ? WHERE user_id = ? AND status_check_id = 0");
 $update->bind_param("si", $order_date, $user_id);
 $update->execute();
