@@ -7,12 +7,12 @@ include_once('navadmin.php');
 include_once('db.php');
 
 // Proses update status
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['order_date']) && isset($_POST['user_id']) && isset($_POST['status_check_id'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['order_date']) && isset($_POST['user_id']) && isset($_POST['status_order_id'])) {
     $order_date = $_POST['order_date'];
     $user_id = $_POST['user_id'];
-    $new_status = $_POST['status_check_id'];
+    $new_status = $_POST['status_order_id'];
 
-    $stmt = $conn->prepare("UPDATE orders SET status_check_id = ? WHERE user_id = ? AND order_date = ?");
+    $stmt = $conn->prepare("UPDATE orders SET status_order_id = ? WHERE user_id = ? AND order_date = ?");
     $stmt->bind_param("iis", $new_status, $user_id, $order_date);
     $stmt->execute();
     $stmt->close();
@@ -42,11 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['order_date']) && isset
             o.order_date,
             GROUP_CONCAT(CONCAT(p.product_name, ' (', o.quantity, ')') SEPARATOR ', ') AS products,
             SUM(o.total_price) AS total_price,
-            o.status_check_id
+            o.status_order_id
             FROM orders o
             JOIN users u ON o.user_id = u.user_id
             JOIN products p ON o.product_id = p.product_id
-            GROUP BY o.user_id, o.order_date, o.status_check_id
+            GROUP BY o.user_id, o.order_date, o.status_order_id
             ORDER BY o.order_date DESC";
                 $result = mysqli_query($conn, $query);
                 $no = 1;
@@ -78,18 +78,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['order_date']) && isset
                             <td class="px-6 py-4">Rp<?= number_format($row['total_price'], 0, ',', '.') ?></td>
                             <td class="px-6 py-4"><?= date('d-m-Y H:i:s', strtotime($order_date)) ?></td>
                             <td class="px-6 py-4">
-                                <form method="POST">
-                                    <input type="hidden" name="user_id" value="<?= $user_id ?>">
-                                    <input type="hidden" name="order_date" value="<?= $order_date ?>">
-                                    <select name="status_check_id" class="border rounded px-2 py-1 text-sm">
-                                        <option value="1" <?= $row['status_check_id'] == 1 ? 'selected' : '' ?>>Pending</option>
-                                        <option value="2" <?= $row['status_check_id'] == 2 ? 'selected' : '' ?>>Diproses</option>
-                                        <option value="3" <?= $row['status_check_id'] == 3 ? 'selected' : '' ?>>Dikirim</option>
-                                        <option value="4" <?= $row['status_check_id'] == 4 ? 'selected' : '' ?>>Selesai</option>
-                                    </select>
-                                    <button type="submit" class="ml-2 bg-[#D2691E] text-white px-3 py-1 rounded text-sm hover:bg-[#b45c17] transition">Ubah</button>
-                                </form>
-                            </td>
+    <form action="update_status.php" method="POST">
+        <input type="hidden" name="user_id" value="<?= $row['user_id'] ?>">
+        <input type="hidden" name="order_date" value="<?= $row['order_date'] ?>">
+        
+        <select name="status_order_id" class="border rounded px-2 py-1 text-sm">
+            <option value="0" <?= $row['status_order_id'] == 0 ? 'selected' : '' ?>>Pending</option>
+            <option value="1" <?= $row['status_order_id'] == 1 ? 'selected' : '' ?>>Diproses</option>
+            <option value="2" <?= $row['status_order_id'] == 2 ? 'selected' : '' ?>>Dikirim</option>
+            <option value="3" <?= $row['status_order_id'] == 3 ? 'selected' : '' ?>>Selesai</option>
+            <option value="4" <?= $row['status_order_id'] == 4 ? 'selected' : '' ?>>Dibatalkan</option>
+        </select>
+        
+        <button type="submit" class="ml-2 bg-[#D2691E] text-white px-3 py-1 rounded text-sm hover:bg-[#b45c17] transition">Ubah</button>
+    </form>
+</td>
                         </tr>
                 <?php
                     endwhile;

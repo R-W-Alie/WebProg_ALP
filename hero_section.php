@@ -7,9 +7,6 @@
             <a href="produk.php" class="inline-block bg-[#8B4513] hover:bg-[#A0522D] text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 ease-in-out shadow-lg transform hover:scale-105">
                 Pesan Sekarang Juga!
             </a>
-            <a href="produk.php" class="inline-block border-2 border-white text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 ease-in-out shadow-lg transform hover:scale-105">
-                Lihat Varian 
-            </a>
         </div>
         <div class="flex items-center text-white text-lg font-semibold bg-black bg-opacity-40 rounded-full px-4 py-2 w-fit">
             <span class="mr-2">⭐ ⭐ ⭐ ⭐ ⭐</span> 
