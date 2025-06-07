@@ -18,7 +18,7 @@ if (!isset($_SESSION['user_id'])) {
             while ($row = mysqli_fetch_assoc($result)):
         ?>
                 <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                    <img src="<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['product_name']) ?>" class="w-full h-48 object-cover">
+                <img src="<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['product_name']) ?>" class="w-full h-48 object-cover">
                     <div class="p-4">
                         <h3 class="text-lg font-semibold text-[#4A4A4A] mb-1"><?= htmlspecialchars($row['product_name']) ?></h3>
                         <p class="text-sm text-gray-600 mb-2"><?= nl2br(htmlspecialchars($row['description'])) ?></p>
