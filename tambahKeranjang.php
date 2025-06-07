@@ -34,5 +34,5 @@ if ($existing) {
     $insert_stmt->bind_param("iiidi", $user_id, $product_id, $quantity, $total_price, $status_order_id);
     $insert_stmt->execute();
 }
-header("Location: cart.php");
+header("Location: produk.php");
 exit;
