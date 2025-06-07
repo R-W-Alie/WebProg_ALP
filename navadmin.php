@@ -32,13 +32,13 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
                 <!-- Right side: nav links and login/logout button -->
                 <ul class="flex gap-6 list-none items-center">
-                        <a href="produk.php"
+                        <a href="adminproduk.php"
                             class="font-medium text-base hover:text-[#D2691E] <?= $currentPage == 'adminproduk.php' ? 'text-[#D2691E]' : 'text-[#4A4A4A]' ?>">
                             Produk
                         </a>
                     </li>
                     <li>
-                        <a href="riwayat.php"
+                        <a href="adminriwayat.php"
                             class="font-medium text-base hover:text-[#D2691E] <?= $currentPage == 'adminriwayat.php' ? 'text-[#D2691E]' : 'text-[#4A4A4A]' ?>">
                             Riwayat Pesanan
                         </a>
