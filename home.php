@@ -17,6 +17,7 @@ $query_laris = "
         orders oi
     JOIN
         products p ON oi.product_id = p.product_id
+    WHERE p.is_active = TRUE -- Add this condition
     GROUP BY
         p.product_id, p.product_name, p.image, p.price, p.description, p.stock
     ORDER BY
@@ -58,7 +59,7 @@ $result_laris = mysqli_query($conn, $query_laris);
                         <div class="flex justify-between items-center mt-auto">
                             <span class="text-sm text-gray-500">Stok: <?= $produk['stock'] ?></span>
                             <?php if ($produk['stock'] > 0): ?>
-                                <a href="tambahKeranjang.php?id=<?= $produk['product_id'] ?>"
+                                <a href="cart.php?id=<?= $produk['product_id'] ?>"
                                     class="bg-[#F4D03F] hover:bg-[#F1C40F] text-[#4A4A4A] font-semibold px-4 py-2 rounded-full transition-transform hover:-translate-y-1 text-sm">
                                     Tambah ke Keranjang
                                 </a>
