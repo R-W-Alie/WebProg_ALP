@@ -1,4 +1,4 @@
-    <footer class="bg-[#F5F1E8] border-t border-[#E0E0E0] pt-16 pb-5">
+    <footer class="bg-[#FFFFFF] border-t border-[#E0E0E0] pt-16 pb-5">
         <div class="max-w-screen-xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-10">
                 <div>
