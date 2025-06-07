@@ -14,16 +14,35 @@ $message = '';
 
 // Proses UPDATE jika form disubmit (metode POST)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // 1. Ambil semua data dari form, termasuk password baru
     $name_user = $_POST['name_user'];
     $email = $_POST['email'];
     $no_hp = $_POST['no_hp'];
     $address = $_POST['address'];
+    $new_password = $_POST['new_password'];
 
-    $stmt = $conn->prepare("UPDATE users SET name_user = ?, email = ?, no_hp = ?, address = ? WHERE user_id = ?");
-    $stmt->bind_param("ssssi", $name_user, $email, $no_hp, $address, $user_id);
+    // 2. Cek apakah pengguna memasukkan password baru
+    if (!empty($new_password)) {
+        // --- JIKA ADA PASSWORD BARU ---
+        
+        // 3. Hash password baru untuk keamanan
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
 
+        // 4. Siapkan kueri UPDATE untuk semua data TERMASUK password
+        $stmt = $conn->prepare("UPDATE users SET name_user = ?, email = ?, no_hp = ?, address = ?, password = ? WHERE user_id = ?");
+        $stmt->bind_param("sssssi", $name_user, $email, $no_hp, $address, $hashed_password, $user_id);
+
+    } else {
+        // --- JIKA TIDAK ADA PASSWORD BARU ---
+        
+        // 4. Siapkan kueri UPDATE hanya untuk data personal, TANPA password
+        $stmt = $conn->prepare("UPDATE users SET name_user = ?, email = ?, no_hp = ?, address = ? WHERE user_id = ?");
+        $stmt->bind_param("ssssi", $name_user, $email, $no_hp, $address, $user_id);
+    }
+
+    // 5. Eksekusi kueri dan arahkan kembali ke halaman profil
     if ($stmt->execute()) {
-        $_SESSION['user_name'] = $name_user;
+        $_SESSION['user_name'] = $name_user; // Update nama di session juga
         $_SESSION['success_message'] = "Profil berhasil diperbarui!";
         header("Location: profile.php");
         exit;
@@ -62,6 +81,18 @@ if (!$user) {
             <div><label for="no_hp" class="block text-sm font-semibold text-gray-700 mb-1">Nomor Telepon</label><input type="tel" name="no_hp" id="no_hp" value="<?= htmlspecialchars($user['no_hp']) ?>" placeholder="Contoh: 08123456789" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"></div>
             <div><label for="address" class="block text-sm font-semibold text-gray-700 mb-1">Alamat</label><textarea name="address" id="address" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"><?= htmlspecialchars($user['address']) ?></textarea></div>
         </div>
+
+        <h2 class="text-xl font-semibold text-amber-800">Ubah Password (Opsional)</h2>
+
+
+        <div>
+    <label for="new_password" class="block text-sm font-semibold text-gray-700 mb-1">Password Baru</label>
+    <input type="password" name="new_password" id="new_password"
+        placeholder="Masukkan password baru"
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+</div>
+
+
 
         <div class="mt-8 pt-6 border-t flex items-center justify-end gap-4">
             <a href="profile.php" class="text-center px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-100 transition">Batal</a>
