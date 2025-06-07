@@ -10,7 +10,7 @@ $user_name = $_SESSION['user_name'] ?? '';
 $sql = "SELECT o.order_id, o.quantity, o.total_price, p.product_name, p.image 
         FROM orders o 
         JOIN products p ON o.product_id = p.product_id 
-        WHERE o.user_id = ? AND o.status_check_id = 0";
+        WHERE o.user_id = ? AND o.status_check_id = 0 AND p.is_active = TRUE"; // Add this condition if you want to enforce active products in cart view
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
