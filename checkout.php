@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once("db.php"); // Already handles timezone configuration
+require_once("db.php"); // Pastikan file ini sudah mengatur timezone
 
-// Authentication check
+// Cek autentikasi pengguna
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
@@ -10,37 +10,47 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Get cart items
-$sql = "SELECT o.order_id, o.product_id, o.quantity, o.total_price, p.product_name, p.price 
-        FROM orders o
-        JOIN products p ON o.product_id = p.product_id
-        WHERE o.user_id = ? AND o.status_check_id = 0";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
+$sql_get_items = "SELECT o.order_id, o.product_id, o.quantity, p.product_name, p.price, o.total_price 
+                    FROM orders o
+                    JOIN products p ON o.product_id = p.product_id
+                    WHERE o.user_id = ? AND o.status_check_id = 0";
+$stmt_get_items = $conn->prepare($sql_get_items);
+$stmt_get_items->bind_param("i", $user_id);
+$stmt_get_items->execute();
+$result_items = $stmt_get_items->get_result();
+$items_to_checkout = $result_items->fetch_all(MYSQLI_ASSOC);
+$stmt_get_items->close();
 
-$cart_items = [];
-$total = 0;
-while ($row = $result->fetch_assoc()) {
-    $cart_items[] = $row;
-    $total += $row['total_price'];
-}
-$stmt->close();
-
-if (empty($cart_items)) {
-    header("Location: cart.php");
+// Jika tidak ada item di keranjang, hentikan proses
+if (empty($items_to_checkout)) {
+    header("Location: keranjang.php"); // Arahkan ke halaman keranjang
     exit;
 }
 
-// Process checkout (timezone already set in db.php)
-$order_date = date("Y-m-d H:i:s");
-$display_date = date('l, j F Y H:i', strtotime($order_date)) . ' WIB'; // Human-readable format
+foreach ($items_to_checkout as $item) {
+    $product_id = $item['product_id'];
+    $quantity_ordered = $item['quantity'];
 
-$update = $conn->prepare("UPDATE orders SET status_check_id = 1, order_date = ? WHERE user_id = ? AND status_check_id = 0");
-$update->bind_param("si", $order_date, $user_id);
-$update->execute();
-$update->close();
+    $sql_update_stock = "UPDATE products SET stock = stock - ? WHERE product_id = ?";
+    $stmt_update_stock = $conn->prepare($sql_update_stock);
+    $stmt_update_stock->bind_param("ii", $quantity_ordered, $product_id);
+    $stmt_update_stock->execute();
+    $stmt_update_stock->close();
+}
+
+// Biarkan database yang mengisi waktu dengan fungsi NOW() untuk akurasi terbaik
+$update_order = $conn->prepare("UPDATE orders SET status_check_id = 1, order_date = NOW() WHERE user_id = ? AND status_check_id = 0");
+$update_order->bind_param("i", $user_id);
+$update_order->execute();
+$update_order->close();
+
+// Menyiapkan data untuk ditampilkan di halaman sukses
+$total = 0;
+foreach ($items_to_checkout as $item) {
+    $total += $item['total_price'];
+}
+$display_date = date('l, j F Y H:i') . ' WIB';
+
 ?>
 
 <!DOCTYPE html>
