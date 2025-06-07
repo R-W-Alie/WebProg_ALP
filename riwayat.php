@@ -33,9 +33,10 @@ $orders_result = $stmt_orders->get_result();
 <div class="max-w-4xl mx-auto py-10">
     <h1 class="text-3xl font-bold mb-6">Riwayat Pesanan</h1>
     <?php if ($orders_result->num_rows > 0): ?>
+        <?php $display_order_number = 1; ?>
         <?php while ($order = $orders_result->fetch_assoc()): ?>
             <div class="bg-white shadow rounded p-6 mb-6">
-                <h2 class="text-xl font-semibold mb-2">Order #<?= $order['order_id'] ?></h2>
+                <h2 class="text-xl font-semibold mb-2">Order #<?= $display_order_number++ ?></h2>
                 <p><strong>Tanggal Pesan:</strong> <?= date('d M Y, H:i', strtotime($order['order_date'])) ?></p>
                 <p><strong>Status Pesanan:</strong> <?= $status_map[$order['status_order_id']] ?? 'Unknown' ?></p>
                 <p><strong>Alamat Pengiriman:</strong> <?= htmlspecialchars($address) ?></p>
@@ -52,9 +53,7 @@ $orders_result = $stmt_orders->get_result();
                     $items_result = $stmt_items->get_result();
                     while ($item = $items_result->fetch_assoc()):
                     ?>
-                        <li>
-                            <?= htmlspecialchars($item['product_name']) ?> — Qty: <?= $item['quantity'] ?> — Total: Rp<?= number_format($item['total_price'], 0, ',', '.') ?>
-                        </li>
+                        <li><?= htmlspecialchars($item['product_name']) ?> — Qty: <?= $item['quantity'] ?> — Total: Rp<?= number_format($item['total_price'], 0, ',', '.') ?></li>
                     <?php endwhile; ?>
                     <?php $stmt_items->close(); ?>
                 </ul>
