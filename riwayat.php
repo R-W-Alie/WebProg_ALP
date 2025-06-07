@@ -1,11 +1,15 @@
 <?php
 session_start();
 require_once("db.php");
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
+
 $user_id = $_SESSION['user_id'];
+
+// Get user address
 $sql_addr = "SELECT address FROM users WHERE user_id = ?";
 $stmt_addr = $conn->prepare($sql_addr);
 $stmt_addr->bind_param("i", $user_id);
@@ -13,54 +17,90 @@ $stmt_addr->execute();
 $stmt_addr->bind_result($address);
 $stmt_addr->fetch();
 $stmt_addr->close();
+
+// Map status
 $status_map = [
-    0 => 'Pending',
-    1 => 'Processing',
-    2 => 'Shipped',
-    3 => 'Delivered',
-    4 => 'Cancelled'
+    0 => '🕓 Pending',
+    1 => '🔄 Processing',
+    2 => '📦 Shipped',
+    3 => '✅ Delivered',
+    4 => '❌ Cancelled'
 ];
-$sql_orders = "SELECT DISTINCT order_id, order_date, status_order_id 
-            FROM orders 
-            WHERE user_id = ? 
-            ORDER BY order_date DESC";
-$stmt_orders = $conn->prepare($sql_orders);
-$stmt_orders->bind_param("i", $user_id);
-$stmt_orders->execute();
-$orders_result = $stmt_orders->get_result();
+
+// Get orders by user grouped by order_id
+$sql = "
+    SELECT 
+        o.order_id, o.order_date, o.status_order_id, 
+        p.product_name, o.quantity, o.total_price
+    FROM orders o
+    JOIN products p ON o.product_id = p.product_id
+    WHERE o.user_id = ?
+    ORDER BY o.order_date ASC
+";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Group orders
+$orders = [];
+while ($row = $result->fetch_assoc()) {
+    $oid = $row['order_id'];
+    if (!isset($orders[$oid])) {
+        $orders[$oid] = [
+            'order_date' => $row['order_date'],
+            'status_order_id' => $row['status_order_id'],
+            'items' => [],
+            'total' => 0
+        ];
+    }
+    $orders[$oid]['items'][] = [
+        'product_name' => $row['product_name'],
+        'quantity' => $row['quantity'],
+        'total_price' => $row['total_price']
+    ];
+    $orders[$oid]['total'] += $row['total_price'];
+}
+$stmt->close();
+$orders = array_reverse($orders);
+$order_display_number = count($orders);
 ?>
+
 <?php include_once('navigation.php'); ?>
-<div class="max-w-4xl mx-auto py-10">
-    <h1 class="text-3xl font-bold mb-6">Riwayat Pesanan</h1>
-    <?php if ($orders_result->num_rows > 0): ?>
-        <?php $display_order_number = 1; ?>
-        <?php while ($order = $orders_result->fetch_assoc()): ?>
-            <div class="bg-white shadow rounded p-6 mb-6">
-                <h2 class="text-xl font-semibold mb-2">Order #<?= $display_order_number++ ?></h2>
-                <p><strong>Tanggal Pesan:</strong> <?= date('d M Y, H:i', strtotime($order['order_date'])) ?></p>
-                <p><strong>Status Pesanan:</strong> <?= $status_map[$order['status_order_id']] ?? 'Unknown' ?></p>
-                <p><strong>Alamat Pengiriman:</strong> <?= htmlspecialchars($address) ?></p>
-                <h3 class="mt-4 font-semibold">Produk:</h3>
-                <ul class="list-disc list-inside">
-                    <?php
-                    $sql_items = "SELECT p.product_name, o.quantity, o.total_price 
-                                FROM orders o 
-                                JOIN products p ON o.product_id = p.product_id 
-                                WHERE o.order_id = ?";
-                    $stmt_items = $conn->prepare($sql_items);
-                    $stmt_items->bind_param("i", $order['order_id']);
-                    $stmt_items->execute();
-                    $items_result = $stmt_items->get_result();
-                    while ($item = $items_result->fetch_assoc()):
-                    ?>
-                        <li><?= htmlspecialchars($item['product_name']) ?> — Qty: <?= $item['quantity'] ?> — Total: Rp<?= number_format($item['total_price'], 0, ',', '.') ?></li>
-                    <?php endwhile; ?>
-                    <?php $stmt_items->close(); ?>
-                </ul>
-            </div>
-        <?php endwhile; ?>
-        <?php $stmt_orders->close(); ?>
+
+<div class="max-w-5xl mx-auto px-4 py-10">
+    <h1 class="text-4xl font-bold mb-8 text-center text-[#4A4A4A]">🧾 Riwayat Pesanan Anda</h1>
+
+    <?php if (!empty($orders)): ?>
+        <?php foreach ($orders as $order): ?>
+            <section class="bg-white shadow-lg rounded-lg p-6 mb-8 border border-gray-100">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-xl font-semibold text-[#D2691E]">Order #<?= $order_display_number-- ?></h2>
+                    <span class="text-sm font-medium text-gray-600"><?= $status_map[$order['status_order_id']] ?? '❓ Unknown' ?></span>
+                </div>
+                <p class="text-sm text-gray-500 mb-2"><strong>Tanggal:</strong> <?= date('d M Y, H:i', strtotime($order['order_date'])) ?></p>
+                <p class="text-sm text-gray-500 mb-4"><strong>Alamat Pengiriman:</strong> <?= htmlspecialchars($address) ?></p>
+                <div class="border-t pt-4">
+                    <h3 class="font-semibold text-gray-700 mb-2">Detail Produk:</h3>
+                    <ul class="space-y-2">
+                        <?php foreach ($order['items'] as $item): ?>
+                            <li class="flex justify-between items-center text-sm text-gray-700">
+                                <span><?= htmlspecialchars($item['product_name']) ?> — Qty: <?= $item['quantity'] ?></span>
+                                <span class="font-medium text-[#D2691E]">Rp<?= number_format($item['total_price'], 0, ',', '.') ?></span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <div class="border-t mt-4 pt-3 flex justify-end">
+                        <span class="text-lg font-bold text-[#D2691E]">Total: Rp<?= number_format($order['total'], 0, ',', '.') ?></span>
+                    </div>
+                </div>
+            </section>
+        <?php endforeach; ?>
     <?php else: ?>
-        <p class="text-gray-600">Anda belum melakukan pembelian apapun.</p>
+        <div class="text-center text-gray-500">
+            <p class="text-lg">Belum ada pesanan yang tercatat.</p>
+        </div>
     <?php endif; ?>
 </div>
+
+<?php include_once('footer.php'); ?>
