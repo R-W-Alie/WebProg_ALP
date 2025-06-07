@@ -43,6 +43,12 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                             Riwayat Pesanan
                         </a>
                     </li>
+                    <li>
+                            <a href="logout.php"
+                                class="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-2 rounded-full transition-transform hover:-translate-y-1 inline-block">
+                                Logout
+                            </a>
+                        </li>
                 </ul>
             </nav>
         </div>

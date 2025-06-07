@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['user_id'] = 'admin';
         $_SESSION['user_name'] = 'Sri Admin';
         $_SESSION['is_admin'] = true;
-        header("Location: admin.php");
+        header("Location: adminproduk.php");
         exit();
     }
     $stmt = $conn->prepare("SELECT user_id, name_user, password FROM users WHERE email = ?");
