@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Get user address
+// Ambil alamat pengguna
 $sql_addr = "SELECT address FROM users WHERE user_id = ?";
 $stmt_addr = $conn->prepare($sql_addr);
 $stmt_addr->bind_param("i", $user_id);
@@ -18,7 +18,7 @@ $stmt_addr->bind_result($address);
 $stmt_addr->fetch();
 $stmt_addr->close();
 
-// Map status
+// Status map
 $status_map = [
     0 => '🕓 Pending',
     1 => '🔄 Processing',
@@ -27,14 +27,14 @@ $status_map = [
     4 => '❌ Cancelled'
 ];
 
-// Get orders by user grouped by order_id
+// Ambil semua order yang sudah di-checkout
 $sql = "
     SELECT 
-        o.order_id, o.order_date, o.status_order_id, 
+        o.order_date, o.status_order_id, 
         p.product_name, o.quantity, o.total_price
     FROM orders o
     JOIN products p ON o.product_id = p.product_id
-    WHERE o.user_id = ?
+    WHERE o.user_id = ? AND o.status_check_id = 1
     ORDER BY o.order_date ASC
 ";
 $stmt = $conn->prepare($sql);
@@ -42,27 +42,28 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Group orders
+// Group by order_date
 $orders = [];
 while ($row = $result->fetch_assoc()) {
-    $oid = $row['order_id'];
-    if (!isset($orders[$oid])) {
-        $orders[$oid] = [
-            'order_date' => $row['order_date'],
+    $odate = $row['order_date'];
+    if (!isset($orders[$odate])) {
+        $orders[$odate] = [
+            'order_date' => $odate,
             'status_order_id' => $row['status_order_id'],
             'items' => [],
             'total' => 0
         ];
     }
-    $orders[$oid]['items'][] = [
+    $orders[$odate]['items'][] = [
         'product_name' => $row['product_name'],
         'quantity' => $row['quantity'],
         'total_price' => $row['total_price']
     ];
-    $orders[$oid]['total'] += $row['total_price'];
+    $orders[$odate]['total'] += $row['total_price'];
 }
 $stmt->close();
-$orders = array_reverse($orders);
+
+$orders = array_reverse($orders); // tampilkan terbaru dulu
 $order_display_number = count($orders);
 ?>
 
