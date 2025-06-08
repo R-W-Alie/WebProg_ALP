@@ -13,7 +13,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     
     $product_id = $_GET['id'];
 
-    // !!! PENTING: MENGUBAH DARI HAPUS PERMANEN KE SOFT DELETE !!!
     // Kita tidak lagi menghapus baris produk, melainkan mengubah statusnya menjadi tidak aktif.
     // Ini menjaga data riwayat pesanan tetap utuh.
     

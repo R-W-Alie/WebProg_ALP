@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Logika untuk upload gambar baru (jika ada)
     $image_path = $current_image; // Defaultnya pakai gambar lama
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
-        $upload_dir = 'uploads/'; // Ganti dengan folder upload Anda
+        $upload_dir = 'image/'; // Ganti dengan folder upload Anda
         $image_name = time() . '_' . basename($_FILES['image']['name']);
         $target_file = $upload_dir . $image_name;
 
