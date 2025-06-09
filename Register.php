@@ -1,11 +1,13 @@
 <?php
 require_once("db.php");
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    //ambil data dari form
     $name = $_POST['name_user'];
     $email = $_POST['email'];
     $phone = $_POST['no_hp'];
     $address = $_POST['address'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    //masukkan data ke database
     $stmt = $conn->prepare("INSERT INTO users (name_user, email, no_hp, address, password) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $name, $email, $phone, $address, $password);
     if ($stmt->execute()) {
