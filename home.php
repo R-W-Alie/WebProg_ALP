@@ -4,7 +4,7 @@
 <?php
 include_once('db.php');
 
-// Query to get top 3 best-selling products with all details
+// Query to get top 3 products
 $query_laris = "
     SELECT
         p.product_id,
