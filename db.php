@@ -7,7 +7,7 @@ $database = "sri";
 // Create connection
 $conn = new mysqli($host, $username, $password, $database);
 
-// Timezone configuration (must come right after connection)
+// Timezone configuration
 if ($conn) {
     date_default_timezone_set('Asia/Jakarta'); // Set PHP timezone
     $conn->query("SET time_zone = '+07:00'"); // Set MySQL timezone to match
