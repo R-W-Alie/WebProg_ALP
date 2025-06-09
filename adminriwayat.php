@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 include_once('navadmin.php');
 include_once('db.php');
 
-// Proses update status
+// Proses update statusnya
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['order_date']) && isset($_POST['user_id']) && isset($_POST['status_order_id'])) {
     $order_date = $_POST['order_date'];
     $user_id = $_POST['user_id'];
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['order_date']) && isset
                         $user_id = $row['user_id'];
                         $order_date = $row['order_date'];
                         
-                        // Ambil semua produk dari transaksi ini
+                        // Ambil semua produk dari transaksi
                         $productQuery = $conn->prepare("SELECT p.product_name, o.quantity 
                                                         FROM orders o
                                                         JOIN products p ON o.product_id = p.product_id
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['order_date']) && isset
     <form action="update_status.php" method="POST">
         <input type="hidden" name="user_id" value="<?= $row['user_id'] ?>">
         <input type="hidden" name="order_date" value="<?= $row['order_date'] ?>">
-        
+        <!-- jenis statusnya -->
         <select name="status_order_id" class="border rounded px-2 py-1 text-sm">
             <option value="0" <?= $row['status_order_id'] == 0 ? 'selected' : '' ?>>Pending</option>
             <option value="1" <?= $row['status_order_id'] == 1 ? 'selected' : '' ?>>Diproses</option>
