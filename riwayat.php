@@ -18,7 +18,7 @@ $stmt_addr->bind_result($address);
 $stmt_addr->fetch();
 $stmt_addr->close();
 
-// Status map
+// Status 
 $status_map = [
     0 => '🕓 Pending',
     1 => '🔄 Processing',

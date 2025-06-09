@@ -1,50 +1,43 @@
 <?php
-// BAGIAN 2: LOGIKA PHP YANG SUDAH DIPERBAIKI
+
 session_start();
 include_once('db.php');
 
-$message = ''; // Variabel untuk menyimpan pesan notifikasi
+$message = ''; 
 
 // Cek apakah form telah disubmit dengan metode POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // 1. Ambil data dari form
     $product_name = $_POST['product_name'];
     $description = $_POST['description'];
     $price = $_POST['price'];
     $stock = $_POST['stock'];
     
-    $uploadOk = 1; // Kita anggap proses akan berhasil
-    $image_path_for_db = ''; // Path default jika tidak ada gambar
+    $uploadOk = 1; 
+    $image_path_for_db = ''; 
 
-    // 2. Lakukan validasi upload gambar
-    // Pastikan file dipilih dan tidak ada error
     if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
-        $target_dir = "image/"; // Pastikan folder ini ada dan bisa ditulisi (writable)
-        
-        // Buat nama file unik untuk menghindari menimpa file lama
+        $target_dir = "image/"; 
+        //buat nama img menjadi unik supaay tidak duplikat
         $image_name = date("YmdHis") . "_" . basename($_FILES["image"]["name"]);
         $target_file = $target_dir . $image_name;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-        // Cek apakah file adalah gambar asli
+        //cek gambar
         $check = getimagesize($_FILES["image"]["tmp_name"]);
         if ($check === false) {
             $message = "File yang diupload bukan gambar.";
             $uploadOk = 0;
         }
-
-        // Izinkan hanya format tertentu
+        //cek format gambar
         $allowed_types = ["jpg", "png", "jpeg", "gif"];
         if (!in_array($imageFileType, $allowed_types)) {
             $message = "Maaf, hanya format JPG, JPEG, PNG & GIF yang diizinkan.";
             $uploadOk = 0;
         }
-
-        // Jika validasi lolos, coba pindahkan file
+        //pindahkan file ke folder image
         if ($uploadOk == 1) {
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                // Jika upload berhasil, simpan path-nya untuk database
+
                 $image_path_for_db = $target_file;
             } else {
                 $message = "Gagal memindahkan file yang diupload. Pastikan folder 'image/' ada dan writable.";
@@ -53,19 +46,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
     } else {
-        // Jika tidak ada file yang diupload atau terjadi error
+
         $message = "Gambar produk wajib diisi.";
         $uploadOk = 0;
     }
-
-    // 3. Simpan ke database HANYA JIKA SEMUA PROSES DI ATAS BERHASIL
+    //masukkan ke db jika gambar berhasil
     if ($uploadOk == 1) {
         $stmt = $conn->prepare("INSERT INTO products (product_name, description, price, stock, image) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("ssiis", $product_name, $description, $price, $stock, $image_path_for_db);
 
         if ($stmt->execute()) {
             $_SESSION['success_message'] = "Produk baru berhasil ditambahkan!";
-            // Mengarahkan ke halaman adminproduk.php sesuai permintaan Anda
+
             header("Location: adminproduk.php"); 
             exit;
         } else {
@@ -73,7 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $stmt->close();
     }
-    // Jika $uploadOk bernilai 0, maka halaman akan ditampilkan kembali bersama pesan error di variabel $message
 }
 ?>
 

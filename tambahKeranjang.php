@@ -5,8 +5,10 @@ if (!isset($_SESSION['user_id']) || !isset($_GET['id'])) {
     header("Location: produk.php");
     exit;
 }
+// cek user udh login atau belum
 $user_id = $_SESSION['user_id'];
 $product_id = intval($_GET['id']);
+//validasi produk
 $stmt = $conn->prepare("SELECT * FROM products WHERE product_id = ?");
 $stmt->bind_param("i", $product_id);
 $stmt->execute();
@@ -15,6 +17,7 @@ if (!$product) {
     header("Location: produk.php");
     exit;
 }
+// cek apakah produk sudah ada di keranjang
 $quantity = 1;
 $total_price = $product['price'] * $quantity;
 $check_stmt = $conn->prepare("SELECT order_id, quantity FROM orders WHERE user_id = ? AND product_id = ? AND status_check_id = 0");

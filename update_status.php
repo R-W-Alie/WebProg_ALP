@@ -2,7 +2,7 @@
 session_start();
 require_once("db.php");
 
-// Cek apakah user adalah admin
+// mengecek yang login, apakah admin
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     header("Location: login.php");
     exit;
@@ -11,15 +11,15 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 // Pastikan metode request adalah POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Ambil data dari form yang sudah diperbaiki
+    // Ambil data dari form 
     $order_date = $_POST['order_date'];
     $user_id = $_POST['user_id'];
-    $new_status = $_POST['status_order_id']; // Mengambil data dari input yang benar
+    $new_status = $_POST['status_order_id']; // Mengambil data dari input 
 
-    // Validasi data dasar
+    // Validasi data 
     if (!empty($order_date) && !empty($user_id) && isset($new_status)) {
         
-        // Kueri UPDATE dengan NAMA TABEL 'orders' dan NAMA KOLOM 'status_order_id' yang benar
+        // update status order di db
         $sql = "UPDATE orders SET status_order_id = ? WHERE user_id = ? AND order_date = ?";
         
         $stmt = $conn->prepare($sql);
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['message'] = "Data tidak lengkap untuk melakukan update.";
     }
 
-    // Arahkan kembali ke halaman riwayat admin
+    // kembali ke riwayat admin
     header("Location: adminriwayat.php");
     exit;
 
