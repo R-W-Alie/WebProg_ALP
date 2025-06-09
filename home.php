@@ -39,8 +39,8 @@ $result_laris = mysqli_query($conn, $query_laris);
                 <div class="slide flex-shrink-0 w-full h-auto bg-white rounded-xl shadow-md overflow-hidden flex flex-col">
                     <div class="w-full h-56 flex items-center justify-center p-4 bg-gray-50">
                         <img src="<?= htmlspecialchars($produk['image']) ?>" 
-                             alt="<?= htmlspecialchars($produk['product_name']) ?>" 
-                             class="max-w-full max-h-full object-contain">
+                            alt="<?= htmlspecialchars($produk['product_name']) ?>" 
+                            class="max-w-full max-h-full object-contain">
                     </div>
 
                     <div class="p-4 flex-grow flex flex-col">
