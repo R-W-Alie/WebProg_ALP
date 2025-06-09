@@ -10,7 +10,7 @@
     </div>
 
     <?php
-    // Display success/error messages from session
+    // Display success atau error messages
     if (isset($_SESSION['success_message'])) {
         echo '<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">' . $_SESSION['success_message'] . '</div>';
         unset($_SESSION['success_message']);
@@ -23,10 +23,11 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         <?php
-        // Query to get active products only
-        $query = "SELECT * FROM products WHERE is_active = TRUE ORDER BY product_id DESC"; // Added WHERE clause
+        // Query buat display active produk
+        $query = "SELECT * FROM products WHERE is_active = TRUE ORDER BY product_id DESC";
         $result = mysqli_query($conn, $query);
-
+        
+        //buat cek ada isinya gk trs valid nda
         if ($result && mysqli_num_rows($result) > 0):
             while ($row = mysqli_fetch_assoc($result)):
         ?>
