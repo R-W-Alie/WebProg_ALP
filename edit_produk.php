@@ -1,8 +1,7 @@
 <?php
 session_start();
-include_once('db.php'); // Pastikan koneksi database Anda benar
+include_once('db.php'); 
 
-// Cek apakah admin sudah login (sesuaikan dengan logika Anda)
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     header("Location: login.php");
     exit;
@@ -13,7 +12,6 @@ $product = null;
 $error_message = '';
 $success_message = '';
 
-// --- BAGIAN 3: LOGIKA UNTUK MEMPROSES FORM SAAT DISUBMIT (METODE POST) ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ambil semua data dari form
     $product_id = $_POST['product_id'];
@@ -21,19 +19,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST['description'];
     $price = $_POST['price'];
     $stock = $_POST['stock'];
-    $current_image = $_POST['current_image']; // Ambil path gambar lama
+    $current_image = $_POST['current_image']; // Ambil  gambar lama
 
-    // Logika untuk upload gambar baru (jika ada)
     $image_path = $current_image; // Defaultnya pakai gambar lama
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
-        $upload_dir = 'image/'; // Ganti dengan folder upload Anda
+        $upload_dir = 'image/'; 
         $image_name = time() . '_' . basename($_FILES['image']['name']);
         $target_file = $upload_dir . $image_name;
 
-        // Pindahkan file yang diupload ke folder tujuan
+        // Pindahkan file baru ke folder image
         if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
             $image_path = $target_file;
-            // Opsional: hapus gambar lama jika berhasil upload yang baru
             if ($current_image && file_exists($current_image)) {
                 unlink($current_image);
             }
@@ -42,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Update data ke database jika tidak ada error upload
+    // Update data ke database 
     if (empty($error_message)) {
         $stmt = $conn->prepare("UPDATE products SET product_name = ?, description = ?, price = ?, stock = ?, image = ? WHERE product_id = ?");
         $stmt->bind_param("ssiisi", $product_name, $description, $price, $stock, $image_path, $product_id);
@@ -56,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$product_id = $_GET['id'] ?? $product_id; // Ambil dari GET atau dari POST jika terjadi error
+$product_id = $_GET['id'] ?? $product_id;
 
 if ($product_id) {
     $stmt = $conn->prepare("SELECT * FROM products WHERE product_id = ?");

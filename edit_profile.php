@@ -1,9 +1,8 @@
 <?php
-// Panggil navigasi di PALING ATAS.
+
 include_once('navigation.php');
 require_once("db.php");
 
-// Cek autentikasi
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
@@ -12,37 +11,30 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $message = '';
 
-// Proses UPDATE jika form disubmit (metode POST)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // 1. Ambil semua data dari form, termasuk password baru
+    // ambil data dari form
     $name_user = $_POST['name_user'];
     $email = $_POST['email'];
     $no_hp = $_POST['no_hp'];
     $address = $_POST['address'];
     $new_password = $_POST['new_password'];
 
-    // 2. Cek apakah pengguna memasukkan password baru
+//apakah user isi pw baru
     if (!empty($new_password)) {
-        // --- JIKA ADA PASSWORD BARU ---
-        
-        // 3. Hash password baru untuk keamanan
+
         $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
 
-        // 4. Siapkan kueri UPDATE untuk semua data TERMASUK password
         $stmt = $conn->prepare("UPDATE users SET name_user = ?, email = ?, no_hp = ?, address = ?, password = ? WHERE user_id = ?");
         $stmt->bind_param("sssssi", $name_user, $email, $no_hp, $address, $hashed_password, $user_id);
 
     } else {
-        // --- JIKA TIDAK ADA PASSWORD BARU ---
-        
-        // 4. Siapkan kueri UPDATE hanya untuk data personal, TANPA password
+
         $stmt = $conn->prepare("UPDATE users SET name_user = ?, email = ?, no_hp = ?, address = ? WHERE user_id = ?");
         $stmt->bind_param("ssssi", $name_user, $email, $no_hp, $address, $user_id);
     }
 
-    // 5. Eksekusi kueri dan arahkan kembali ke halaman profil
     if ($stmt->execute()) {
-        $_SESSION['user_name'] = $name_user; // Update nama di session juga
+        $_SESSION['user_name'] = $name_user; // Update nama di session 
         $_SESSION['success_message'] = "Profil berhasil diperbarui!";
         header("Location: profile.php");
         exit;
