@@ -12,7 +12,7 @@ include_once('db.php');
         $query_produk = "SELECT * FROM products WHERE is_active = TRUE ORDER BY product_id DESC"; // Ensure is_active = TRUE is included
         $result_produk = mysqli_query($conn, $query_produk);
 
-        // FIX: Change $result to $result_produk here
+
         if ($result_produk && mysqli_num_rows($result_produk) > 0):
             while ($row = mysqli_fetch_assoc($result_produk)):
         ?>
